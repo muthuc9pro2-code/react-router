@@ -11,8 +11,9 @@ import { useState, useEffect } from 'react';
 
 
 function App() {
-  const [posts]
+  const [posts, setPosts] = useState([]);
   const [search, setSearch ] = useState('');
+  const [searchResult, setSearchResult] = useState([]);
   return (
     <div className="App">
       <Header title= "react JS Blog" />
@@ -21,7 +22,9 @@ function App() {
       SetSearch={setSearch} 
       />
       <Routes>
-        <Route path='/' element = {<Home />} />
+        <Route path='/' element = {<Home 
+        posts={posts}
+        />} />
         <Route path='/post' element = {<NewPost />} />
         <Route path='/post/:id' element = {<PostPage />} />
         <Route path='*' element = {<Missing />} />

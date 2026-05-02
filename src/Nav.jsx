@@ -13,9 +13,9 @@ const Nav = ({ search, setSearch }) => {
             onChange={(e) => setSearch(e.target.value)} />
         </form>
         <ul>
-            <li Link to="/">Home</li>
-            <li LInk to="/post">Post</li>
-            <li Link to="/about">About</li>
+            <li>< Link to="/">Home</Link></li>
+            <li>< Link to="/post">Post</Link></li>
+            <li>< Link to="/about">About</Link></li>
         </ul>
     </nav>
   )
