@@ -5,7 +5,7 @@ const NewPost = ({
 }) => {
     return (
         <main className='NewPost'>
-            <h1>NewPost</h1>
+           <h1>NewPost</h1>
             <form className='newPostForm' onSubmit={handleSubmit}>
                 <label htmlFor="postTitle">Title:</label>
                 <input type="text"
@@ -23,7 +23,7 @@ const NewPost = ({
                 </textarea>
                 <button type='submit'>Submit</button>
             </form>
-        </main>
+        </main> 
     )
 }
 

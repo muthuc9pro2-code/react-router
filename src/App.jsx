@@ -4,102 +4,125 @@ import Footer from './Footer';
 import Home from './Home';
 import NewPost from './NewPost';
 import PostPage from './PostPage';
+import EditPost from './EditPost';
 import About from './About';
 import Missing from './Missing';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
+import api from './api/posts';
 
 
 function App() {
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      title: "My First Post",
-      datetime: "July 01, 2021 11:17:36",
-      body: "lorem sadaskdmas lamsdoojasmdaosd ,asldaskdlas,dasmdasda,sda,sdasnausbfnksn"
-    },
-     {
-      id: 2,
-      title: "My 2nd Post",
-      datetime: "July 01, 2021 11:17:36",
-      body: "lorem sadaskdmas lamsdoojasmdaosd ,asldaskdlas,dasmdasda,sda,sdasnausbfnksn"
-    },
-     {
-      id: 3,
-      title: "My 3rd Post",
-      datetime: "July 01, 2021 11:17:36",
-      body: "lorem sadaskdmas lamsdoojasmdaosd ,asldaskdlas,dasmdasda,sda,sdasnausbfnksn"
-    },
-    {
-      id: 4,
-      title: "My 4th Post",
-      datetime: "July 01, 2021 11:17:36",
-      body: "lorem sadaskdmas lamsdoojasmdaosd ,asldaskdlas,dasmdasda,sda,sdasnausbfnksn"
-    },
-    {
-      id: 5,
-      title: "My 5th Post",
-      datetime: "July 01, 2021 11:17:36",
-      body: "lorem sadaskdmas lamsdoojasmdaosd ,asldaskdlas,dasmdasda,sda,sdasnausbfnksn"
-    }
-    
-  ]);
-  const [search, setSearch ] = useState('');
+  const [posts, setPosts] = useState([]);
+  const [search, setSearch] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [postTitle, setPostTitle] = useState('');
   const [postBody, setPostBody] = useState('');
+  const [editTitle, setEditTitle] = useState('');
+  const [editBody, setEditBody] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    const filterResults = posts.filter(post => 
-      ((post.body).toLowerCase()).includes(search.toLowerCase())
-    || ((post.title).toLowerCase()).includes(search.toLowerCase())
-  )
-  setSearchResult(filterResults.reverse());
-  },[posts, search])
+    const fetchItems = async () => {
+      try {
+        const response = await api.get('/posts');
+        setPosts(response.data);
+      } catch (err) {
+        if (err.response) {
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.header);
+        } else {
+          console.log(`Error: ${err.message}`);
+        };
+      }
+    }
+    fetchItems();
+  }, [])
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    const filterResults = posts.filter(post =>
+      ((post.body).toLowerCase()).includes(search.toLowerCase())
+      || ((post.title).toLowerCase()).includes(search.toLowerCase())
+    )
+    setSearchResult(filterResults.reverse());
+  }, [posts, search])
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const id = posts.length ? posts[posts.length - 1].id + 1 : 1;
     const datetime = format(new Date(), 'MMMM dd, yyyy pp');
     const newPost = { id, title: postTitle, datetime, body: postBody };
-    const allPosts = [...posts, newPost];
-    setPosts(allPosts);
-    setPostTitle('');
-    setPostBody('');
-    navigate('/')
+    try {
+      const response = await api.post('/posts', newPost)
+      const allPosts = [...posts, response.data];
+      setPosts(allPosts);
+      setPostTitle('');
+      setPostBody('');
+      navigate('/')
+    } catch (err) {
+      console.log(`Error: Thala edho aidichi ${err.message}`);
+    }
   }
 
-  const handleDelete = (id) => {
-    const postsList = posts.filter(post => post.id !== id);
-    setPosts(postsList);
-    navigate('/');
-  } 
+  const handleEdit = async (id) => {
+    const datetime = format(new Date(), 'MMMM dd, yyyy pp');
+    const updatedPost = { id, title: editTitle, datetime, body: editBody };
+    try {
+      const response = await api.put(`/posts/${id}`, updatedPost);
+      setPosts(posts.map(post => post.id === id ? { ...response.data } : post));
+      setEditTitle('');
+      setEditBody('');
+      navigate('/')
+    } catch (err) {
+      console.log(`Error: $(err.message)`);
+    }
+  }
+
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/posts/${id}`);
+      const postsList = posts.filter(post => post.id !== id);
+      setPosts(postsList);
+      navigate('/')
+    } catch {
+      console.log(`Error: ${err.message}`);
+    }
+  }
+
   return (
     <div className="App">
-      <Header title= "react JS Blog" />
+      <Header title="react JS Blog" />
       <Nav
-      search={search}
-      setSearch={setSearch} 
+        search={search}
+        setSearch={setSearch}
       />
       <Routes>
-        <Route path='/' element = {<Home 
-        posts={searchResult}
+        <Route path='/' element={<Home
+          posts={searchResult}
         />} />
-        <Route path='/post' element = {<NewPost 
-        handleSubmit={handleSubmit}
-        postTitle={postTitle}
-        setPostTitle={setPostTitle}
-        postBody={postBody}
-        setPostBody={setPostBody}
+        <Route path='/post' element={<NewPost
+          handleSubmit={handleSubmit}
+          postTitle={postTitle}
+          setPostTitle={setPostTitle}
+          postBody={postBody}
+          setPostBody={setPostBody}
         />} />
-        <Route path='/post/:id' element = {<PostPage 
-        posts={posts} 
-        handleDelete={handleDelete}
+        <Route path='/edit/:id' element={<EditPost
+          posts={posts}
+          handleEdit={handleEdit}
+          editTitle={editTitle}
+          setEditTitle={setEditTitle}
+          editBody={editBody}
+          setEditBody={setEditBody}
         />} />
-        <Route path='*' element = {<Missing />} />
-        <Route path='/about' element = {<About />} />
+        <Route path='/post/:id' element={<PostPage
+          posts={posts}
+          handleDelete={handleDelete}
+        />} />
+        <Route path='*' element={<Missing />} />
+        <Route path='/about' element={<About />} />
       </Routes>
       <Footer />
     </div>
