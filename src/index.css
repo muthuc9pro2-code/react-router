@@ -1,278 +1,363 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-html {
-  font-size: 16px;
+html{
+    font-size: 16px;
+    scroll-behavior: smooth;
 }
 
-body {
-  min-height: 100vh;
-  font-family: 'Open Sans', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: flex;
-  background-color: #efefef;
+body{
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    background:
+        radial-gradient(circle at top left, #1e293b 0%, #0f172a 40%, #020617 100%);
+    color: #f8fafc;
+    display: flex;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} 
-
-.App {
-  width: 100%;
-  max-width: 800px;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  border: 1px solid #333;
-  box-shadow: 0px 0px 15px gray;
+#root{
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
 }
 
-.Header, .Footer {
-  width: 100%;
-  background-color: #66d8f5;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.App{
+    width: 100%;
+    max-width: 900px;
+    height: 95vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 24px;
+    backdrop-filter: blur(16px);
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow:
+        0 10px 40px rgba(0,0,0,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
-.Header h1 {
-  font-size: 1.5rem;
-}
+/* HEADER + FOOTER */
 
-.Header svg {
-  font-size: 2rem;
-}
-
-.Footer {
-  padding: 0.75rem;
-  display: grid;
-  place-content: center;
-}
-
-.Nav {
-  width: 100%;
-  background-color: #333;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-
-.searchForm {
-  width: 80%;
-  padding: 1rem 0 0 0.75rem;
-}
-
-.searchForm input[type="text"] {
-  font-family: 'Open Sans', sans-serif;
-  width: 100%;
-  min-height: 48px;
-  font-size: 1rem;
-  padding: 0.25rem;
-  border-radius: 0.25rem;
-  outline: none;
-}
-
-.searchForm label {
-  position: absolute;
-  left: -99999px;
-}
-
-.Nav ul {
-  color: #fff;
-  list-style-type: none;
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-}
-
-.Nav li {
-  padding: 1rem;
-}
-
-.Nav li:hover, 
-.Nav li:focus {
-  padding: 1rem;
-}
-
-.Nav li a {
-  color: #fff;
-  text-decoration: none;
-}
-
-.Nav li:hover, 
-.Nav li:focus, 
-.Nav li:hover a, 
-.Nav li:focus a  {
-  background-color: #eee;
-  color: #333;
-}
-
-.Nav li:hover a, 
-.Nav li:focus a {
-  cursor: pointer;
-}
-
-.Home, .NewPost, .PostPage, .About, .Missing {
-  width: 100%;
-  flex-grow: 1;
-  padding: 1rem;
-  overflow-y: auto;
-  background-color: #fff;
-}
-
-.post {
-  margin-top: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid lightgray;
-}
-
-.Home .post a {
-  text-decoration: none;
-}
-
-.Home .post a, 
-.Home .post a:visited {
-  color: #000;
-}
-
-.post:first-child {
-  margin-top: 0;
-}
-
-.post:last-child {
-  border-bottom: none;
-}
-
-.postDate {
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
-}
-
-.postBody {
-  margin: 1rem 0;
-}
-
-.newPostForm {
-  display: flex;
-  flex-direction: column;
-}
-
-.newPostForm label {
-  margin-top: 1rem;
-}
-
-.newPostForm input[type='text'], 
-.newPostForm textarea {
-  font-family: 'Open Sans', sans-serif;
-  width: 100%;
-  min-height: 48px;
-  font-size: 1rem;
-  padding: 0.25rem;
-  border-radius: 0.25rem;
-  margin-right: 0.25rem;
-  outline: none;
-}
-
-.newPostForm textarea {
-  height: 100px;
-}
-
-.newPostForm button {
-  margin-top: 1rem;
-  height: 48px;
-  min-width: 48px;
-  border-radius: 10px;
-  padding: 0.5rem;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.Missing p, .PostPage p, .NewPost p {
-  margin-top: 1rem;
-}
-
-.PostPage button {
-  height: 48px;
-  min-width: 48px;
-  border-radius: 0.25rem;
-  padding: 0.5rem;
-  margin-right: 0.5rem;
-  font-size: 1rem;
-  color: #fff;
-  cursor: pointer;
-}
-
-.deleteButton {
-  background-color: red;
-}
-
-.editButton {
-  background-color: #333;
-}
-
-.statusMsg {
-  margin-top: 2rem;
-}
-
-@media only screen and (min-width: 610px) {
-  html {
-    font-size: 22px;
-  }
-
-  .Header h1 {
-    font-size: 2rem;
-  }
-
-  .Nav {
-    flex-direction: row;
-    flex-wrap: nowrap;
+.Header,
+.Footer{
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: rgba(30, 41, 59, 0.85);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-
-  .Nav ul {
-    text-align: right;
-  }
-
-  .Nav li:hover, 
-  .Nav li:focus, 
-  .Nav li:hover a, 
-  .Nav li:focus a  {
-    background-color: #eee;
-    color: #333;
-  }
-
-  .searchForm {
-    width: 50%;
-    padding: .5rem 0;
-  }
- 
-  .searchForm input[type="text"] {
-    margin-left: 0.5rem;
-  }
-
-  .newPostForm textarea {
-    height: 300px;
-  }
+    backdrop-filter: blur(12px);
 }
 
-@media only screen and (min-width: 992px) {
+.Footer{
+    border-top: 1px solid rgba(255,255,255,0.08);
+    border-bottom: none;
+    justify-content: center;
+    color: #cbd5e1;
+    font-size: 0.9rem;
+}
 
-  .Header svg {
-    font-size: 3rem;
-  }
+.Header h1{
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(to right, #38bdf8, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
+.Header svg{
+    font-size: 2.3rem;
+    color: #38bdf8;
+    filter: drop-shadow(0 0 10px rgba(56,189,248,0.6));
+}
+
+/* NAVBAR */
+
+.Nav{
+    width: 100%;
+    background: rgba(15, 23, 42, 0.95);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 1rem;
+}
+
+.Nav ul{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+}
+
+.Nav li{
+    border-radius: 12px;
+    transition: all 0.25s ease;
+}
+
+.Nav li a{
+    display: block;
+    padding: 0.8rem 1rem;
+    text-decoration: none;
+    color: #e2e8f0;
+    font-weight: 500;
+    transition: 0.25s ease;
+}
+
+.Nav li:hover,
+.Nav li:focus{
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    transform: translateY(-2px);
+}
+
+.Nav li:hover a,
+.Nav li:focus a{
+    color: white;
+}
+
+/* SEARCH */
+
+.searchForm{
+    width: 100%;
+    padding: 0.5rem 0;
+}
+
+.searchForm label{
+    position: absolute;
+    left: -999999px;
+}
+
+.searchForm input[type="text"]{
+    width: 100%;
+    min-height: 50px;
+    border: none;
+    outline: none;
+    border-radius: 14px;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    background: rgba(255,255,255,0.08);
+    color: white;
+    transition: 0.3s ease;
+    backdrop-filter: blur(8px);
+}
+
+.searchForm input[type="text"]:focus{
+    background: rgba(255,255,255,0.12);
+    box-shadow: 0 0 0 3px rgba(56,189,248,0.4);
+}
+
+.searchForm input[type="text"]::placeholder{
+    color: #94a3b8;
+}
+
+/* MAIN PAGES */
+
+.Home,
+.NewPost,
+.PostPage,
+.About,
+.Missing{
+    width: 100%;
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    background: transparent;
+}
+
+/* POSTS */
+
+.post{
+    margin-bottom: 1.5rem;
+    padding: 1.2rem;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: 0.3s ease;
+    backdrop-filter: blur(12px);
+}
+
+.post:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+
+.Home .post a{
+    text-decoration: none;
+}
+
+.Home .post a,
+.Home .post a:visited{
+    color: #f8fafc;
+}
+
+.post h2{
+    color: #38bdf8;
+    margin-bottom: 0.4rem;
+}
+
+.postDate{
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+.postBody{
+    margin-top: 1rem;
+    line-height: 1.7;
+    color: #e2e8f0;
+}
+
+/* FORM */
+
+.newPostForm{
+    display: flex;
+    flex-direction: column;
+}
+
+.newPostForm label{
+    margin: 1rem 0 0.4rem;
+    font-weight: 600;
+    color: #cbd5e1;
+}
+
+.newPostForm input[type='text'],
+.newPostForm textarea{
+    width: 100%;
+    border: none;
+    outline: none;
+    border-radius: 14px;
+    padding: 1rem;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    background: rgba(255,255,255,0.08);
+    color: white;
+    transition: 0.3s ease;
+}
+
+.newPostForm input[type='text']:focus,
+.newPostForm textarea:focus{
+    box-shadow: 0 0 0 3px rgba(56,189,248,0.4);
+}
+
+.newPostForm textarea{
+    min-height: 180px;
+    resize: vertical;
+}
+
+/* BUTTONS */
+
+.newPostForm button,
+.PostPage button{
+    margin-top: 1rem;
+    border: none;
+    outline: none;
+    border-radius: 14px;
+    padding: 0.9rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.newPostForm button{
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    color: white;
+}
+
+.newPostForm button:hover{
+    transform: translateY(-2px);
+    opacity: 0.92;
+}
+
+.PostPage button{
+    color: white;
+}
+
+.deleteButton{
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.editButton{
+    background: linear-gradient(135deg, #0f172a, #334155);
+}
+
+.PostPage button:hover{
+    transform: scale(1.05);
+}
+
+/* STATUS */
+
+.statusMsg{
+    margin-top: 2rem;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 1.1rem;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+    width: 10px;
+}
+
+::-webkit-scrollbar-track{
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb{
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background: rgba(255,255,255,0.3);
+}
+
+/* MEDIA */
+
+@media only screen and (min-width: 610px){
+
+    html{
+        font-size: 18px;
+    }
+
+    .Header h1{
+        font-size: 2.2rem;
+    }
+
+    .Nav{
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .searchForm{
+        width: 45%;
+    }
+
+    .newPostForm textarea{
+        min-height: 260px;
+    }
+}
+
+@media only screen and (min-width: 992px){
+
+    .Header svg{
+        font-size: 3rem;
+    }
+
+    .App{
+        max-width: 1000px;
+    }
 }
